@@ -5,9 +5,6 @@ let formElement = document.querySelector("#form");
 let error = document.querySelector(".error");
 let taskItem = document.querySelector(".information");
 
-// giá trị cho ô thêm vào
-console.log(formElement);
-
 const listJob = JSON.parse(localStorage.getItem("jobs")) || [];
 
 // lắng nghe sự kiện submit
@@ -40,9 +37,10 @@ formElement.addEventListener("submit", function (event) {
     inputInfor.value = "";
     inputInfor.focus();
   }
+  render();
 });
 
-function randerListJob() {
+function render() {
   let jobInHtmls = listJob.map(function (job) {
     return `
     <div class="task">
@@ -56,21 +54,18 @@ function randerListJob() {
         `;
   });
 
-  console.log(jobInHtmls.join(""));
-  taskItem.innerHTML = jobConvert.join("");
+  let jobConvert = jobInHtmls.join("");
+  taskItem.innerHTML = jobConvert;
 }
 
-randerListJob();
+render();
 
 function handleDelete(id) {
-  console.log("onclick", id);
-  confirm("bạn có chắc muốn xóa công việc!");
-  if (confirm("bạn có chắc muốn xóa công việc!")) {
-    let filterJobs = jobLocal.filter(function (job) {
+  if (confirm("Bạn có chắc muốn xóa công việc này?")) {
+    let filterJobs = listJob.filter(function (job) {
       return job.id !== id;
     });
     localStorage.setItem("jobs", filterJobs);
-    randerListJob();
-    console.log(filterJobs);
+    render();
   }
 }

@@ -4,8 +4,12 @@ let inputInfor = document.querySelector(".addinfor");
 let formElement = document.querySelector("#form");
 let error = document.querySelector(".error");
 let taskItem = document.querySelector(".information");
+let checkElement = document.querySelectorAll(
+  '.inputTask input[type="checkbox"]'
+);
+let percentElement = document.querySelector(".percent");
 
-const listJob = JSON.parse(localStorage.getItem("jobs")) || [];
+let listJob = JSON.parse(localStorage.getItem("jobs")) || [];
 
 // lắng nghe sự kiện submit
 formElement.addEventListener("submit", function (event) {
@@ -40,6 +44,7 @@ formElement.addEventListener("submit", function (event) {
   render();
 });
 
+// hiển thị listJob
 function render() {
   let jobInHtmls = listJob.map(function (job) {
     return `
@@ -57,15 +62,48 @@ function render() {
   let jobConvert = jobInHtmls.join("");
   taskItem.innerHTML = jobConvert;
 }
-
+// Gọi lại
 render();
 
+// xóa List Job
 function handleDelete(id) {
   if (confirm("Bạn có chắc muốn xóa công việc này?")) {
     let filterJobs = listJob.filter(function (job) {
       return job.id !== id;
     });
-    localStorage.setItem("jobs", filterJobs);
+    localStorage.setItem("jobs", JSON.stringify(filterJobs));
+    listJob = filterJobs;
     render();
   }
 }
+
+// check box
+
+checkElement.forEach(function (checkbox) {
+  checkbox.addEventListener("change", function () {
+    if (this.checked) {
+      this.nextElementSibling.innerHTML =
+        "<s>" + this.nextElementSibling.textContent + "</s>";
+    } else {
+      this.nextElementSibling.innerHTML = this.nextElementSibling.textContent;
+    }
+  });
+});
+
+// process
+
+checkElement.forEach(function (checkbox) {
+  checkbox.addEventListener("change", function () {
+    let checkedCount = document.querySelectorAll(
+      '.inputTask input[type="checkbox"]:checked'
+    ).length;
+    let totalCount = checkElement.length;
+
+    let completionRatio = (checkedCount / totalCount) * 100;
+
+    percentElement.textContent = completionRatio.toFixed(0) + "%";
+
+    document.querySelector(".process h3").textContent =
+      "Tiến độ hoàn thành" + " " + percentElement.textContent;
+  });
+});

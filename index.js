@@ -104,7 +104,12 @@ checkElement.forEach(function (checkbox) {
 
     percentElement.textContent = completionRatio.toFixed(0) + "%";
 
-    document.querySelector(".process h3").textContent =
-      "Tiến độ hoàn thành" + " " + percentElement.textContent;
+    if (checkedCount === totalCount) {
+      document.querySelector(".process h3").textContent =
+        "Hoàn thành công việc";
+    } else {
+      document.querySelector(".process h3").textContent =
+        "Tiến độ hoàn thành" + " " + percentElement.textContent;
+    }
   });
 });

@@ -4,10 +4,6 @@ let inputInfor = document.querySelector(".addinfor");
 let formElement = document.querySelector("#form");
 let error = document.querySelector(".error");
 let taskItem = document.querySelector(".information");
-let checkElement = document.querySelectorAll(
-  '.inputTask input[type="checkbox"]'
-);
-let percentElement = document.querySelector(".percent");
 
 let listJob = JSON.parse(localStorage.getItem("jobs")) || [];
 
@@ -78,6 +74,9 @@ function handleDelete(id) {
 }
 
 // check box
+let checkElement = document.querySelectorAll(
+  '.inputTask input[type="checkbox"]'
+);
 
 checkElement.forEach(function (checkbox) {
   checkbox.addEventListener("change", function () {
@@ -91,6 +90,8 @@ checkElement.forEach(function (checkbox) {
 });
 
 // process
+
+let percentElement = document.querySelector(".percent");
 
 checkElement.forEach(function (checkbox) {
   checkbox.addEventListener("change", function () {
